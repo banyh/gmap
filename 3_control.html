@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			html, body { height: 100%; margin: 0; padding: 0; }
+			#map { height: 100%; }
+		</style>
+	</head>
+	<body>
+		<div id="map"></div>
+<!--
+1. 在 new google.maps.Map 中加入參數 disableDefaultUI: true 可關掉所有控制項
+
+2. 在 new google.maps.Map 可用以下參數
+	panControl: boolean,			上下左右調整
+	zoomControl: boolean,			可調整放大縮小的bar
+	mapTypeControl: boolean,		右上角的地形、衛星
+	scaleControl: boolean,			右下角顯示比例尺
+	streetViewControl: boolean,		街景的小人
+	overviewMapControl: boolean		沒什麼用
+
+3. 在 new google.maps.Map 可用 zoomControlOptions: { style: XXX }
+	google.maps.ZoomControlStyle.SMALL		只有 + - 兩個按鈕
+	google.maps.ZoomControlStyle.LARGE		有 + - 兩個按扭，及中間的bar
+	google.maps.ZoomControlStyle.DEFAULT	等於LARGE
+
+4. 在 new google.maps.Map 可用 mapTypeControlOptions: { style: XXX, mapTypeIds: [
+Y1, Y2] }
+	google.maps.MapTypeControlStyle.DROPDOWN_MENU	下拉式
+	google.maps.MapTypeControlStyle.HORIZONTAL_BAR	水平式
+	google.maps.MapTypeControlStyle.DEFAULT
+	mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN]
+
+5. 在所有的 ControlOptions 中都可以加 position: google.maps.ControlPosition.XXX
+	TOP_CENTER
+	TOP_LEFT
+	TOP_RIGHT
+	LEFT_TOP
+	RIGHT_TOP
+	LEFT_CENTER
+	RIGHT_CENTER
+	LEFT_BOTTOM
+	RIGHT_BOTTOM
+	BOTTOM_CENTER
+	BOTTOM_LEFT
+	BOTTOM_RIGHT
+
+6. 自訂 control: 看這份原始碼
+-->
+		<script type="text/javascript">
+
+var chicago = {lat: 41.85, lng: -87.65};
+var map;
+
+/**
+ * The CenterControl adds a control to the map that recenters the map on
+ * Chicago.
+ * @constructor
+ * @param {!Element} controlDiv
+ * @param {!google.maps.Map} map
+ * @param {?google.maps.LatLng} center
+ */
+function CenterControl(controlDiv, map, center) {
+	// We set up a variable for this since we're adding event listeners later.
+	var control = this;
+
+	// Set the center property upon construction
+	control.center_ = center;
+	controlDiv.style.clear = 'both';
+
+	// Set CSS for the control border
+	var goCenterUI = document.createElement('div');
+	goCenterUI.id = 'goCenterUI';
+	goCenterUI.title = 'Click to recenter the map';
+	controlDiv.appendChild(goCenterUI);
+
+	// Set CSS for the control interior
+	var goCenterText = document.createElement('div');
+	goCenterText.id = 'goCenterText';
+	goCenterText.innerHTML = 'Center Map';
+	goCenterUI.appendChild(goCenterText);
+
+	// Set CSS for the setCenter control border
+	var setCenterUI = document.createElement('div');
+	setCenterUI.id = 'setCenterUI';
+	setCenterUI.title = 'Click to change the center of the map';
+	controlDiv.appendChild(setCenterUI);
+
+	// Set CSS for the control interior
+	var setCenterText = document.createElement('div');
+	setCenterText.id = 'setCenterText';
+	setCenterText.innerHTML = 'Set Center';
+	setCenterUI.appendChild(setCenterText);
+
+	// Set up the click event listener for 'Center Map': Set the center of the map
+	// to the current center of the control.
+	goCenterUI.addEventListener('click', function() {
+	var currentCenter = control.getCenter();
+	map.setCenter(currentCenter);
+	});
+
+	// Set up the click event listener for 'Set Center': Set the center of the
+	// control to the current center of the map.
+	setCenterUI.addEventListener('click', function() {
+	var newCenter = map.getCenter();
+		control.setCenter(newCenter);
+	});
+}
+
+/**
+ * Define a property to hold the center state.
+ * @private
+ */
+CenterControl.prototype.center_ = null;
+
+/**
+ * Gets the map center.
+ * @return {?google.maps.LatLng}
+ */
+CenterControl.prototype.getCenter = function() {
+	return this.center_;
+};
+
+
+/**
+ * Sets the map center.
+ * @param {?google.maps.LatLng} center
+ */
+CenterControl.prototype.setCenter = function(center) {
+	this.center_ = center;
+};
+
+function initMap() {
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: {lat: 23, lng: 121},
+		zoom: 8
+	});
+	// Create the DIV to hold the control and call the CenterControl() constructor
+	// passing in this DIV.
+	var centerControlDiv = document.createElement('div');
+	var centerControl = new CenterControl(centerControlDiv, map, chicago);
+
+	centerControlDiv.index = 1;
+	centerControlDiv.style['padding-top'] = '10px';
+	map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+
+}
+		</script>
+
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBD_Tjvc6CL94AuKPfIEdfiloU4ej1FRys&callback=initMap">
+		</script>
+	</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			html, body { height: 100%; margin: 0; padding: 0; }
+			#map { height: 100%; }
+		</style>
+	</head>
+	<body>
+		<div id="map"></div>
+		<script type="text/javascript">
+
+var map;
+function initMap() {
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: {lat: 23, lng: 121},
+		zoom: 8
+	});
+}
+
+		</script>
+
+<!--
+1. 在 API 加入language=ja，強制使用日文
+	如果沒有設定任何語言，會使用browser的語言
+
+2. 如果是阿拉伯文、希伯萊文、波斯文，需要額外設定由右到左書寫
+	<html dir="rtl">
+
+3. 在 API 加入region=GB，可以指定地區
+	有時候不同國家會有同樣的地名，指定region可以減少搜尋錯誤的機會
+
+4. API 可以指定版本
+	v=3.exp		實驗版(3.21)
+	v=3.20		目前的版本
+	v=3.19		上一版
+-->
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?language=ja&key=AIzaSyBD_Tjvc6CL94AuKPfIEdfiloU4ej1FRys&callback=initMap">
+		</script>
+	</body>
+</html>
