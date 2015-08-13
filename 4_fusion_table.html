@@ -20,8 +20,19 @@ function initMap() {
 	layer_3 = new google.maps.FusionTablesLayer({
 		query: {
 			select: "geometry",
-			from: "1Wc1-iW4qoh87BV2Je9TQPpNLRlVACaqSL0O0l-tJ"
+			from: "19pncPhYn9NhwN72DnHNEZcIrv_CHW307KKNfv6C8"
 		},
+		map: map,
+		styleId: 2,
+		templateId: 2
+	});
+
+	layer_2 = new google.maps.FusionTablesLayer({
+		query: {
+			select: "geometry",
+			from: "1JHOwm9mh1-5kSFjg4OircJDiaeXlrpDqEZjoFQ6I"
+		},
+		suppressInfoWindows: true,
 		map: map,
 		styleId: 2,
 		templateId: 2
