@@ -37,6 +37,17 @@ function initMap() {
 		styleId: 2,
 		templateId: 2
 	});
+
+	layer_1 = new google.maps.FusionTablesLayer({
+		query: {
+			select: "geometry",
+			from: "1nCQXOhHXd95-a38Z2nS9iwKg3PpatNrUn6XOlaTG"
+		},
+		suppressInfoWindows: true,
+		map: map,
+		styleId: 2,
+		templateId: 2
+	});
 }
 
 		</script>
