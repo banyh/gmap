@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			html, body { height: 100%; margin: 0; padding: 0; }
+			#map1 { height: 40%; width: 80%; }
+			#map2 { height: 40%; width: 80%; }
+			#map3 { height: 40%; width: 80%; }
+			#map4 { height: 40%; width: 80%; }
+			#map5 { height: 40%; width: 80%; }
+			#map6 { height: 40%; width: 80%; }
+		</style>
+	</head>
+	<body">
+		<div id="map1"></div>
+		<div id="map2"></div>
+		<div id="map3"></div>
+		<div id="map4"></div>
+		<div id="map5"></div>
+		<div id="map6"></div>
+		<script type="text/javascript">
+
+/*
+
+1. 基本地圖類型
+	MapTypeId.ROADMAP
+	MapTypeId.SATELLITE
+	MapTypeId.HYBRID
+	MapTypeId.TERRAIN
+
+2. 可以在 `new google.maps.Map`中設定屬性`mapTypeId: google.maps.MapTypeId.ROADMAP`
+	也可以動態修改 `map.setMapTypeId(google.maps.MapTypeId.TERRAIN);`
+
+3. 使用自定義的map type
+	由屬性中設定 `mapTypeId: 'myStyle'`
+	產生自定義的map type物件 `var myMapType = new MyMapType();`
+	設定map type `map.mapTypes.set('myStyle', myMapType);`
+
+4. 自定地圖的風格: [Styled Maps Wizard](http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html)
+	設定好之後，按右邊的Show JSON，複制下來，指定給某變數 `var styleJSON = ...;`
+
+5. 將自定的風格設定為新的map type
+	```
+	var styledMap = new google.maps.StyledMapType(styleJSON, {name: "myMapStyle"});
+	map6 = new google.maps.Map(document.getElementById('map6'), {
+		center: {lat: 23, lng: 121},
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		mapTypeControlOptions: {
+			mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'myMapStyle']
+		}
+	});
+	map6.mapTypes.set('myMapStyle', styledMap);
+	map6.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+	```
+
+*/
+
+var styleJSON = [ { "stylers": [ { "saturation": -100 }, { "weight": 0.1 } ] },{ "featureType": "road.local", "elementType": "geometry", "stylers": [ { "color": "#ff1780" }, { "weight": 0.3 } ] },{ "featureType": "road.highway.controlled_access", "elementType": "geometry", "stylers": [ { "weight": 0.6 }, { "color": "#113cf5" } ] },{ "featureType": "road.arterial", "elementType": "geometry", "stylers": [ { "weight": 0.6 }, { "color": "#0d8080" } ] } ];
+
+var map;
+function initMap() {
+	map1 = new google.maps.Map(document.getElementById('map1'), {
+		center: {lat: 23, lng: 121},
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
+	map2 = new google.maps.Map(document.getElementById('map2'), {
+		center: {lat: 23, lng: 121},
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.SATELLITE
+	});
+	map3 = new google.maps.Map(document.getElementById('map3'), {
+		center: {lat: 23, lng: 121},
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.HYBRID
+	});
+	map4 = new google.maps.Map(document.getElementById('map4'), {
+		center: {lat: 23, lng: 121},
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.TERRAIN
+	});
+	map5 = new google.maps.Map(document.getElementById('map5'), {
+		center: {lat: 23, lng: 121},
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
+	map5.setOptions({styles: styleJSON});
+
+	var styledMap = new google.maps.StyledMapType(styleJSON, {name: "myMapStyle"});
+	map6 = new google.maps.Map(document.getElementById('map6'), {
+		center: {lat: 23, lng: 121},
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		mapTypeControlOptions: {
+			mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'myMapStyle']
+		}
+	});
+	map6.mapTypes.set('myMapStyle', styledMap);
+	map6.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+}
+
+		</script>
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBD_Tjvc6CL94AuKPfIEdfiloU4ej1FRys&callback=initMap">
+		</script>
+	</body>
+</html>
